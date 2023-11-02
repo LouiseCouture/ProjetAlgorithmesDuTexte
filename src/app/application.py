@@ -52,6 +52,7 @@ class Application(QMainWindow):
 
         # Create widgets
         self.createWidgets()
+        self.showMaximized()
 
         # Set-up logger
         self.setUpLogger()
@@ -106,7 +107,7 @@ class Application(QMainWindow):
         self.treeView.clicked.connect(self.onTreeViewClicked)
 
         # Check boxes
-        self.checkboxes = [self.CDS, self.CENTRO, self.INTRON, self.MOBILE, self.NC_RNA, self.R_RNA, self.TELOMETRE, self.T_RNA, self.UTR_3, self.UTR_5, self.ALL, self.NONE]
+        self.checkboxes = [self.CDS, self.CENTRO, self.INTRON, self.MOBILE, self.NC_RNA, self.R_RNA, self.TELOMETRE, self.T_RNA, self.UTR_3, self.UTR_5, self.CHLORO, self.MITO, self.ALL, self.NONE]
         self.all_checked = False
         self.none_checked = False
         for checkbox in self.checkboxes:
