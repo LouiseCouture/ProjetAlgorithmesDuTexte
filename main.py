@@ -23,7 +23,7 @@ def main():
     # Create application
     _app = QApplication(sys.argv)
     window = Application()
-    apply_stylesheet(_app, theme="light_blue.xml", extra={'density_scale': '10',})
+    apply_stylesheet(_app, theme="light_blue.xml", extra={'density_scale': '5',})
 
     # Signal handler
     signal.signal(signal.SIGINT, signalHandler)

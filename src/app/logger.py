@@ -65,6 +65,14 @@ class QPlainTextEditLogger(logging.Handler):
         self.widget = QPlainTextEdit(parent)
         self.widget.setReadOnly(True)
 
+        # Définir la taille de police du widget
+        font = QFont()
+        font.setPointSize(30) 
+        self.widget.setFont(font)
+        # Définir la feuille de style pour ajuster la taille du texte
+        style_sheet = "font-size: {}px;".format(font.pointSize())
+        self.widget.setStyleSheet(style_sheet)
+
     def emit(self, record):
         msg = self.format(record)
         self.widget.appendHtml(msg)
