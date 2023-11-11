@@ -2,6 +2,7 @@ import traceback
 from .DNA_parser.sequence_parser import parseSequence
 from .DNA_parser.CDS_parser import parseCDS
 from ..app.logger import emitLog, Log
+from Bio import Entrez
 
 def parseFeatures(region_type, path, id, organism, record, worker=None):
     """
@@ -16,8 +17,32 @@ def parseFeatures(region_type, path, id, organism, record, worker=None):
     """
     emitLog(Log.INFO, "Start parsing id = " + str(id), worker)
 
+    summary_handle = Entrez.esummary(db="nucleotide", id=id)
+    summary_record = Entrez.read(summary_handle)
+    chloro = False
+    plasmid = False
+    mito = False
+    # Check if "Chloroplast" is in the title
+    print(summary_record[0]["Title"])
+    if "chloroplast" in summary_record[0]["Title"].lower():
+        chloro = True
+        emitLog(Log.DEBUG, "Chloroplast found in id = " + str(id), worker)
+    elif "plasmid" in summary_record[0]["Title"].lower():
+        plasmid = True
+        emitLog(Log.DEBUG, "Plasmid found in id = " + str(id), worker)
+    elif "mitochondrion" in summary_record[0]["Title"].lower():
+        mito = True
+        emitLog(Log.DEBUG, "Mitochondrion found in id = " + str(id), worker)
+    summary_handle.close()
+
     # Initialize variables
     file_name = id.split(".")[0]
+    if chloro:
+        file_name = "Chloroplast_" + file_name
+    elif plasmid:
+        file_name = "Plasmid_" + file_name
+    elif mito:
+        file_name = "Mitochondrion_" + file_name
     DNA = None
     DNA_length = -1
 
